@@ -1,0 +1,49 @@
+<!-- 
+    Describe: 注册
+    Created by ZhuYuan on 2017-03-23
+-->
+<!DOCTYPE html>
+<html>
+<head lang="zh_CN">
+    <title>注册牛X</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="css/register-login.css">
+    <%include form.ejs %>
+</head>
+<body>
+
+<%include header.ejs %>
+
+<div class="cent-box register-box">
+    <div class="cent-box-header">
+        <h1 class="main-title">注册牛X</h1>
+        <h2 class="sub-title">与世界分享你的牛X、经验和见解</h2>
+    </div>
+
+    <div class="cont-main clearfix">
+        <div class="index-tab">
+            <div class="index-slide-nav">
+                <a href="showLogin">登录</a>
+                <a href="showRegist" class="active">注册</a>
+                <div class="slide-bar slide-bar1"></div>
+            </div>
+        </div>
+
+        <%include formInput.ejs %>
+
+    </div>
+</div>
+
+<div class="footer">
+    <p>这是一个 牛X 的网站</p>
+</div>
+
+<%include msg.ejs %>
+
+<script>
+    submit("/doRegist");
+</script>
+
+</body>
+</html>

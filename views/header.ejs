@@ -1,0 +1,112 @@
+<!--[if lt IE 9]>
+<script src="ie/html5shiv.min.js"></script>
+<script src="ie/respond.min.js"></script>
+<![endif]-->
+
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/css/style.css"/>
+<script src="/js/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+<%
+if(login){
+%>
+    <link href="/cropper/cropper.min.css" rel="stylesheet">
+    <link href="/cropper/sitelogo.css" rel="stylesheet">
+    <script src="/cropper/cropper.min.js"></script>
+    <script src="/cropper/sitelogo.js"></script>
+<%}%>
+
+<nav id="head" class="navbar navbar-default navbar-fixed-top navbar-inverse">
+    <div class="container">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/"><span class="glyphicon glyphicon-home"></span> 全部说说</a></li>
+                    <%
+                    if(login){
+                    %>
+                        <li><a href="/showUser/<%=username%>" target="_blank"><span class="glyphicon glyphicon-fire"></span> 我的说说</a></li>
+                    <%}%>
+                    <li><a href="/userList" target="_blank"><span class="glyphicon glyphicon-th-list"></span> 牛X列表</a></li>
+                </ul>
+                <%
+                 if(login){
+                %>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a>Hello <span id="username"><%=username%></span></a></li>
+                        <a id="crop-avatar">
+                            <span class="avatar-view">
+                                <img src="/head/<%=head%>" id="myHead" name="<%=head%>" title="我的头像" alt="我的头像"/>
+                            </span>
+                        </a>
+                    </ul>
+                <%}else {%>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="showLogin"><span class="glyphicon glyphicon-user"></span> 登陆</a></li>
+                        <li><a href="showRegist"><span class="glyphicon glyphicon-plus"></span> 注册</a></li>
+                    </ul>
+                <%}%>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<%
+if(login){
+%>
+    <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="editForm" action="/doHead" class="avatar-form">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" type="button">&times;</button>
+                        <h4 class="modal-title" id="avatar-modal-label">修改头像</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="avatar-body">
+                            <div class="avatar-upload">
+                                <input class="avatar-src" name="avatar_src" type="hidden">
+                                <input class="avatar-data" name="avatar_data" type="hidden">
+                                <label for="avatarInput">图片上传</label>
+                                <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="avatar-wrapper"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="avatar-preview preview-lg"></div>
+                                    <div class="avatar-preview preview-md"></div>
+                                    <div class="avatar-preview preview-sm"></div>
+                                </div>
+                            </div>
+                            <div class="row avatar-btns">
+                                <div class="col-md-9">
+                                    <!--<div class="btn-group">-->
+                                        <!--<button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>-->
+                                    <!--</div>-->
+                                    <!--<div class="btn-group">-->
+                                        <!--<button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-success btn-block avatar-save" ><i class="fa fa-save"></i> 保存修改</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+<%}%>

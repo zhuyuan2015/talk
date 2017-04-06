@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="css/register-login.css">
+<script src="/js/md5.js"></script>
+<script>
+var submit = function(url){
+    $("#form").submit(function(){
+        $.ajax({
+            url:url,
+            type:'POST',
+            data:{
+                username: $("#username").val(),
+                passrod: md5(md5($("#password").val()).substr(1,5)+md5($("#password").val()))
+            },
+            beforeSend:function(jqXHR,setting){
+                $("#load").show();
+            },
+            success:function(data){
+                if(data.result){
+                    msg.info(true,data.info);
+                    window.location = "/";
+                }else{
+                    msg.info(false,data.info);
+                }
+            },
+            complete : function(XMLHttpRequest,textStatus){
+
+            },
+            error:function(data){
+                msg.info(false,"网络错误");
+            }
+        });
+        return false;
+    });
+}
+</script>

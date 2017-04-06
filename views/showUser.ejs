@@ -1,0 +1,50 @@
+<!-- 
+    Describe:某个用户说说
+    Created by ZhuYuan on 2017-03-28 00:49
+-->
+<!DOCTYPE html>
+<html>
+<head lang="zh_CN">
+    <title><%=user%>-的主页</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<% include header.ejs %>
+<div id="main" class="container">
+    <ul id="" class="list-group">
+        <li class="list-group-item">
+            <ul class="media-list">
+                <li class="meida">
+                    <div class="media-left">
+                        <a href="#"><img src="/head/<%=userHead%>" alt="" class="media-object head"></a>
+                    </div>
+                    <div class="media-body">
+                       <h1><%=user%>-的主页</h1>
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <h3><%=user%>-的说说</h3>
+    <%for(var i=0;i<content.length;i++){%>
+        <ul id="" class="list-group">
+            <li class="list-group-item">
+                <ul class="media-list">
+                    <li class="meida">
+                        <div class="media-left">
+                            <img style="width: 50px;height: 50px;" src="/head/<%=userHead%>" alt="" class="media-object">
+                        </div>
+                        <div class="media-body">
+                            <strong><%=content[i].username%></strong> <time><%=content[i].datetime%></time>
+                            <p><%=content[i].content%></p>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    <%}%>
+</div>
+
+</body>
+</html>

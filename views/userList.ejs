@@ -1,0 +1,36 @@
+<!-- 
+    Describe:某个用户说说
+    Created by ZhuYuan on 2017-03-28 00:49
+-->
+<!DOCTYPE html>
+<html>
+<head lang="zh_CN">
+    <title>牛X列表</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+
+<% include header.ejs %>
+
+<div id="main" class="container">
+    <%for(var i=0;i<user.length;i++){%>
+        <ul id="" class="list-group">
+            <li class="list-group-item">
+                <ul class="media-list">
+                    <li class="meida">
+                        <div class="media-left">
+                            <img src="head/<%=user[i].head%>" alt="" class="media-object head">
+                        </div>
+                        <div class="media-body">
+                            <h3><%=user[i].username%></h3> <time>注册于 <%=user[i].datetime%></time>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    <%}%>
+</div>
+
+</body>
+</html>

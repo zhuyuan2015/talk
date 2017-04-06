@@ -1,0 +1,131 @@
+<!-- 
+    Describe: 首页
+    Created by ZhuYuan on 2017-03-17 23:31
+-->
+<!DOCTYPE html>
+<html>
+<head lang="zh_CN">
+	<title>牛X小组</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+
+<%include header.ejs %>
+
+<div id="main" class="container">
+    <form id="talk">
+        <div class="form-group">
+            <textarea name="content" id="content"  class="form-control" rows="3" required="required" placeholder="登陆后发表你的牛X说说"></textarea>
+        </div>
+        <div class="form-group">
+            <button id="submit" type="submit" class="btn btn-default">提交</button>
+        </div>
+    </form>
+    <div id="mainTalk"></div>
+    <ul id="talkPage" class="pagination"></ul>
+</div>
+
+<script id="talkTemplate" type="text/template">
+    <ul id="" class="list-group">
+        <li class="list-group-item">
+            <ul class="media-list">
+                <li class="meida">
+                    <div class="media-left">
+                        <a href="/showUser/{{username}}" target="_blank"><img src="head/{{head}}" alt="" class="media-object head"></a>
+                    </div>
+                    <div class="media-body">
+                        <strong>{{username}}</strong> <small>{{datetime}}</small>
+                        <p>{{content}}</p>
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</script>
+<%include msg.ejs %>
+<script src="js/underscore-no-conflict-min.js"></script>
+<script src="js/jqPaginator.js"></script>
+<script>
+    $(function(){
+        //提交
+        $("#talk").submit(function(){
+            $.ajax({
+                url:'/doTalk',
+                type:'POST',
+                data:$("#talk").serialize(),
+                beforeSend:function(jqXHR,setting){
+                    $("#submit").get(0).disabled = true;
+                    $("#load").show();
+                },
+                success:function(data){
+                    if(data.result){
+                        msg.info(true,data.info);
+                        var complied = _.template($("#talkTemplate").html());
+                        var html = complied({
+                            head: $("#myHead").attr("name"),
+                            username: $("#username").text(),
+                            datetime: data.datetime,
+                            content: $("#content").val(),
+                        });
+                        $("#mainTalk").prepend($.parseHTML(html));
+                    }else {
+                        msg.info(false,data.info);
+                    }
+                },
+                complete : function(XMLHttpRequest,textStatus){
+                    $("#submit").get(0).disabled = false;
+                },
+                error:function(result){
+                    msg.info(false,"提交出错: 找不到提交地址或者网络错误");
+                }
+            });
+            return false;
+        });
+        // 分页
+        $.get("/talkPage",function(data){
+            var count = data.result;
+            if(count > 0){
+                $.jqPaginator('#talkPage', {
+                    totalPages: Math.ceil(count / 10),
+                    visiblePages: 10,
+                    currentPage: 1,
+                    onPageChange: function (num, type) {
+                        getTalk(num);
+                    }
+                });
+            }
+        });
+    });
+
+    /**
+     * 获取留言
+     * @param page
+     */
+    function getTalk(page){
+        $.get("/getTalk?page="+ (page - 1),function(data){
+            $("#mainTalk").html("");
+            var count = data.result.length;
+            var complied = _.template($("#talkTemplate").html());
+            if(count > 0){
+                inerator(0);
+                function inerator(i){
+                    if(i == data.result.length){
+                        return;
+                    }
+                    $.get("/getUser?username=" + data.result[i].username,function(data2){
+                        data.result[i].head = data2.result.head;
+                        var html = complied(data.result[i]);
+                        $("#mainTalk").append($.parseHTML(html));
+                        inerator(i + 1);
+                    });
+                }
+            }else {
+                $("#mainTalk").append("<h3>还没有留言哦~</h3>");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

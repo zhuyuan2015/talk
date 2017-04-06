@@ -1,0 +1,39 @@
+<div id="msg">
+    <i class="msg"></i>
+    <span></span>
+</div>
+
+<div id='load'>
+    <div class='spinner'>
+        <div class='rect1'></div>
+        <div class='rect2'></div>
+        <div class='rect3'></div>
+        <div class='rect4'></div>
+        <div class='rect5'></div>
+    </div>
+</div>
+<script>
+    /**
+     * 状态提示
+     * @type {{info: Function, close: Function}}
+     */
+    var msg = {
+        info:function(status,text){
+            setTimeout(function(){
+                $("#load").hide();
+                var y = status == true ? "0px" : "-18px";
+                $(".msg").css({
+                    backgroundPosition: "0 " + y
+                }).next().html(text).parent().show();
+                msg.close();
+            },300);
+        },
+        close:function(){
+            setTimeout(function(){
+                $("#msg").hide();
+            },2500);
+        }
+    }
+</script>
+
+
